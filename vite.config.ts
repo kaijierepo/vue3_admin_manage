@@ -10,7 +10,22 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
+      eslintrc: {
+        enabled: true, // <-- this
+      },
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/,
+        /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],    
       resolvers: [ElementPlusResolver()],
+      imports: [
+        'vue',
+        // '@vue/composition-api',
+        'vue-router'
+      ],
+      dts: 'src/auto-imports.d.ts',
     }),
     Components({
       resolvers: [ElementPlusResolver()],
@@ -18,7 +33,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@util': fileURLToPath(new URL('./src/utility', import.meta.url)),
+      '@api': fileURLToPath(new URL('./src/api', import.meta.url)),
     }
   }
 })
